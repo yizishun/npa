@@ -80,7 +80,7 @@ static int cmd_x(char *args){
   int addr = strtol(arg2,NULL,16);
   uint8_t *raddr = guest_to_host(addr);
   for(int i =0;i < n;i++ ,addr+=8,raddr++)
-	  printf("%x    %x\n",addr,*raddr);
+	  printf("0x%x    %02x\n",addr,*raddr);
   
   return 0;
 }

@@ -79,7 +79,7 @@ static int cmd_x(char *args){
   int n = strtol(arg1,NULL,10);
   int addr = strtol(arg2,NULL,16);
   uint8_t *raddr = guest_to_host(addr);
-  for(int i =0;i < n;i++ ,addr+=8)
+  for(int i =0;i < n;i++ ,addr+=8,raddr++)
 	  printf("%x    %d\n",addr,*raddr);
   
   return 0;

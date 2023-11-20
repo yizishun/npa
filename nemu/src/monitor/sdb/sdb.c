@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "memory/paddr.h"
 
 static int is_batch_mode = false;
 
@@ -72,6 +73,18 @@ static int cmd_info(char *args){
 
 }
 
+static int cmd_x(char *args){
+  char *arg1 = strtok(NULL," ");
+  char *arg2 = strtok(NULL," ");
+  int n = strtol(arg1,NULL,10);
+  int addr = strtol(arg2,NULL,16);
+  uint8_t *raddr = guest_to_host(addr);
+  for(int i =0;i < n;i++ ,addr+=8)
+	  printf("%x    %d",addr,*raddr);
+  
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -84,6 +97,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "step", cmd_si},
   { "info", "info r or info w",cmd_info},
+  { "x", "x * *",cmd_x},
 
   /* TODO: Add more commands */
 

@@ -58,6 +58,17 @@ static int cmd_si(char *args){
   else n = atoi(args);
   cpu_exec(n);
   return 0;
+}
+
+static int cmd_info(char *args){
+  if(args == NULL) return 0;
+  switch(*args){
+    case 'r':
+	    isa_reg_display();
+	    break;	
+    default:
+  	    printf("info r");}
+  return 0;
 
 }
 
@@ -72,6 +83,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "step", cmd_si},
+  { "info", "info r or info w",cmd_info},
 
   /* TODO: Add more commands */
 

@@ -144,9 +144,11 @@ bool check_parentheses(int p,int q){
 
   if(check_parentheses2(p , q) == false)
     assert(0);
+  if((tokens[p].type == '(')&&(tokens[q].type == ')')){
   p+=1;
   q-=1;
-  return check_parentheses2(p , q);
+  return check_parentheses2(p , q);}
+  return false;
 }
 
 static int find_main_op(int p,int q){

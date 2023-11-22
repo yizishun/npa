@@ -124,6 +124,7 @@ static bool make_token(char *e) {
   return true;
 }
 bool check_parentheses2(int p,int q){
+  if(p > q) assert(0);
   int lp = 0;
   for(;p < q;p++){
     if(tokens[p].type == '(')

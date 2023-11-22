@@ -145,9 +145,9 @@ bool check_parentheses(int p,int q){
   if(check_parentheses2(p , q) == false)
     assert(0);
   if((tokens[p].type == '(')&&(tokens[q].type == ')')){
-  p+=1;
-  q-=1;
-  return check_parentheses2(p , q);}
+    p+=1;
+    q-=1;
+    return check_parentheses2(p , q);}
   return false;
 }
 
@@ -220,7 +220,7 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  return eval(0,nr_token);
+  return eval(0,nr_token-1);
 }
 
 

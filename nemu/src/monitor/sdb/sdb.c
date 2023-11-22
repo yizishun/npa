@@ -80,9 +80,22 @@ static int cmd_x(char *args){
   int addr = strtol(arg2,NULL,16);
   uint8_t *raddr = guest_to_host(addr);
   for(int i =0;i < n;i++ ,addr+=8,raddr++)
-	  printf("0x%x    %02x\n",addr,*raddr);
-  
+	  printf("0x%x    %02x\n",addr,*raddr);  
   return 0;
+}
+static int cmd_p(char *args){
+  bool seccess = true;
+  bool *seccessptr = &seccess;
+  int val;
+  if(args == NULL) return 0;
+  val = expr(args,seccessptr);
+  if(seccess == false){
+    printf("make token false");
+    return 0;
+  }
+  printf("%d\n",val);
+  return 0;
+    
 }
 
 static int cmd_help(char *args);
@@ -98,6 +111,7 @@ static struct {
   { "si", "step", cmd_si},
   { "info", "info r or info w",cmd_info},
   { "x", "x * *",cmd_x},
+  { "p", "p expr",cmd_p},
 
   /* TODO: Add more commands */
 

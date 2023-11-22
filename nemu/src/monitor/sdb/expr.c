@@ -19,7 +19,7 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
-
+#define MAXOP 10
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NUMD,
 
@@ -109,8 +109,7 @@ static bool make_token(char *e) {
 	  case TK_NOTYPE:break;
 	  case TK_NUMD:
 	    tokens[nr_token++].type = rules[i].token_type;
-	    
-          default: TODO();
+	    strncpy(tokens[nr_token].str,substr_start,substr_len);
         }
 
         break;
@@ -122,10 +121,94 @@ static bool make_token(char *e) {
       return false;
     }
   }
-
   return true;
 }
+bool check_parentheses2(int p,int q){
+  int lp = 0;
+  for(;p < q;p++){
+    if(tokens[p].type == '(')
+      lp += 1;
+    else if(tokens[p].type == ')'){
+      if(lp == 0) return false;
+      else lp -= 1;
+    }
+}
+  if(lp != 0) return false;
+  else return true;
 
+
+
+}
+bool check_parentheses(int p,int q){
+
+  if(check_parentheses2(p , q) == false)
+    assert(0);
+  p+=1;
+  q-=1;
+  return check_parentheses2(p , q);
+}
+
+static int find_main_op(int p,int q){
+  int plus[MAXOP] = {-1}, plusptr = 0;
+  int sub[MAXOP] = {-1},subptr = 0;
+  int mul[MAXOP] = {-1}, mulptr = 0;
+  int div[MAXOP] ={-1}, divptr = 0;
+  int lp = 0;
+  int op = 0;
+  for(;p < q;p++){
+    if(tokens[p].type == '(') lp++;
+    if(tokens[p].type == ')') lp--;
+    if(lp != 0) continue;
+    switch(tokens[p].type){
+      case '+' : 
+        plus[plusptr++] = p;
+	break;
+      case '-' :
+	sub[subptr++] = p;
+	break;
+      case '*' :
+	mul[mulptr++] = p;
+	break;
+      case '/' :
+	div[divptr++] = p;
+	break;
+}}
+    if(plus[0] != -1) op = plus[--plusptr];
+    if(sub[0] != -1)
+      if(sub[--subptr] > op) op = sub[subptr];
+    if((plus[0] == -1) &&(sub[0] == -1)){
+      if(mul[0] != -1) op = mul[--mulptr];
+      if(div[0] != -1)
+        if(div[--divptr] > op) op = sub[divptr];
+    }
+  return op;
+} 
+
+static uint32_t eval(int p,int q){
+  int op;
+  int val1,val2;
+  if(p > q)
+    assert(0);
+  else if(p == q)
+    return atoi(tokens[p].str);
+  else if(check_parentheses(p,q) == true)
+    return eval(p + 1, q - 1);
+  else{
+    op = find_main_op(p,q);
+    val1 = eval(p , op -1);
+    val2 = eval(op + 1 ,q);
+    switch(tokens[op].type){
+      case '+':return val1 + val2;
+      case '-':return val1 - val2;
+      case '*':return val1 * val2;
+      case '/':return val1 / val2;
+      default :assert(0);
+    }
+  }
+
+
+
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -134,7 +217,20 @@ word_t expr(char *e, bool *success) {
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  return eval(0,nr_token);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

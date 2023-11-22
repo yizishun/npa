@@ -43,7 +43,7 @@ static struct rule {
   {"/",'/'},            // div
   {"\\(",'('},          // lp
   {"\\)",')'},          // rp
-  {"\\d{1,}",TK_NUMD},   //number dec  
+  {"[0-9]{1,}",TK_NUMD},   //number dec  
   {"==", TK_EQ},        // equal
   
 };

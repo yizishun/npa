@@ -183,7 +183,7 @@ static int find_main_op(int p,int q){
     if((plus[0] == -1) &&(sub[0] == -1)){
       if(mul[0] != -1) op = mul[--mulptr];
       if(div[0] != -1)
-        if(div[--divptr] > op) op = sub[divptr];
+        if(div[--divptr] > op) op = div[divptr];
     }
   return op;
 } 

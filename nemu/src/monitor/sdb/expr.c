@@ -109,7 +109,7 @@ static bool make_token(char *e) {
 	  case TK_NOTYPE:break;
 	  case TK_NUMD:
 	    tokens[nr_token++].type = rules[i].token_type;
-	    strncpy(tokens[nr_token].str,substr_start,substr_len);
+	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
         }
 
         break;

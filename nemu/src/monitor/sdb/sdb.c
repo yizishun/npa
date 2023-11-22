@@ -90,7 +90,7 @@ static int cmd_p(char *args){
   if(args == NULL) return 0;
   val = expr(args,seccessptr);
   if(seccess == false){
-    printf("make token false");
+    printf("make_token false\n");
     return 0;
   }
   printf("%d\n",val);

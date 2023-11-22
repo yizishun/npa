@@ -175,6 +175,7 @@ static int find_main_op(int p,int q){
       case '/' :
 	div[divptr++] = p;
 	break;
+      default : continue;
 }}
     if(plus[0] != -1) op = plus[--plusptr];
     if(sub[0] != -1)
@@ -216,7 +217,6 @@ static uint32_t eval(int p,int q){
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
-    assert(0);
     return 0;
   }
 

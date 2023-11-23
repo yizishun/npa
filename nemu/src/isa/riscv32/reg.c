@@ -32,7 +32,6 @@ void isa_reg_display() {
 word_t isa_reg_str2val(const char *s, bool *success) {
   int i;
   s+=1;
-  assert(0);
   for(i = 0;i < REGNUMBER;i++){
     if(strcmp(regs[i],s) == 0)
       break;

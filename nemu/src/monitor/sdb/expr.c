@@ -202,6 +202,7 @@ static uint32_t eval(int p,int q){
     if(tokens[p].type == TK_REG){
 	int n;
 	bool success = false;
+	assert(0);
 	n = isa_reg_str2val(tokens[p].str,&success);
 	if(success == true)
 	  return n;

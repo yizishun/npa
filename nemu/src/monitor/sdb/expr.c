@@ -45,7 +45,7 @@ static struct rule {
   {"/",'/'},            // div
   {"\\(",'('},          // lp
   {"\\)",')'},          // rp
-  {"\\$[a-z]{1,2}[0-9]{1,2}",TK_REG}, // reg                                      
+  {"\\$[a-z]{1,2}[0-9]{0,2}",TK_REG}, // reg                                      
   {"0(x|X)([0-9]|[A-F]|[a-f]){1,}",TK_NUMH},  //number hex       
   {"[0-9]{1,}",TK_NUMD},   //number dec  
   {"==", TK_EQ},        // equal

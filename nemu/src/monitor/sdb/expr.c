@@ -202,14 +202,14 @@ static uint32_t eval(int p,int q){
     if(tokens[p].type == TK_REG){
 	int n;
 	bool success = false;
-	assert(0);
 	n = isa_reg_str2val(tokens[p].str,&success);
 	if(success == true)
 	  return n;
-	else
+	else{
 	  printf("isa_reg f");
-}
-    else return strtol(tokens[p].str,NULL,0);
+	  assert(0);}
+    }
+    return strtol(tokens[p].str,NULL,0);
   }    
   else if(check_parentheses(p,q) == true)
     return eval(p + 1, q - 1);

@@ -20,8 +20,10 @@
  */
 #include <regex.h>
 #define MAXOP 10
+
+//static uint32_t eval(int ,int ) __attribute__((naked));
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUMD,
+  TK_NOTYPE = 256, TK_EQ, TK_NUMD , TK_NUMH , TK_REG,
 
   /* TODO: Add more token types */
 
@@ -43,6 +45,8 @@ static struct rule {
   {"/",'/'},            // div
   {"\\(",'('},          // lp
   {"\\)",')'},          // rp
+  {"\\$[a-z]{1,2}[0-9]{0,2}",TK_REG}, // reg                                      
+  {"0(x|X)([0-9]|[A-F]|[a-f]){1,}",TK_NUMH},  //number hex       
   {"[0-9]{1,}",TK_NUMD},   //number dec  
   {"==", TK_EQ},        // equal
   
@@ -107,10 +111,11 @@ static bool make_token(char *e) {
 	    tokens[nr_token++].type = rules[i].token_type;
 	    break;
 	  case TK_NOTYPE:break;
-	  case TK_NUMD:
+	  case TK_NUMD:case TK_NUMH:case TK_REG:
 	    tokens[nr_token++].type = rules[i].token_type;
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
-        }
+	    break;          
+}
 
         break;
       }
@@ -193,8 +198,19 @@ static uint32_t eval(int p,int q){
   int val1,val2;
   if(p > q)
     assert(0);
-  else if(p == q)
-    return atoi(tokens[p].str);
+  else if(p == q){
+    if(tokens[p].type == TK_REG){
+	int n;
+	bool success = false;
+	n = isa_reg_str2val(tokens[p].str,&success);
+	if(success == true)
+	  return n;
+	else{
+	  printf("isa_reg f");
+	  assert(0);}
+    }
+    return strtol(tokens[p].str,NULL,0);
+  }    
   else if(check_parentheses(p,q) == true)
     return eval(p + 1, q - 1);
   else{
@@ -209,10 +225,7 @@ static uint32_t eval(int p,int q){
       default :assert(0);
     }
   }
-
-
-
-}
+}	
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {

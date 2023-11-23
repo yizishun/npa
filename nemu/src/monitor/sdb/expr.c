@@ -20,8 +20,10 @@
  */
 #include <regex.h>
 #define MAXOP 10
+
+static uint32_t eval(int ,int ) __attribute__((naked));
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUMD,
+  TK_NOTYPE = 256, TK_EQ, TK_NUMD,TK_NUMH,
 
   /* TODO: Add more token types */
 
@@ -43,6 +45,7 @@ static struct rule {
   {"/",'/'},            // div
   {"\\(",'('},          // lp
   {"\\)",')'},          // rp
+  {"0(x|X)[0-9]{1,}",TK_NUMH},  //number hex       
   {"[0-9]{1,}",TK_NUMD},   //number dec  
   {"==", TK_EQ},        // equal
   
@@ -107,10 +110,11 @@ static bool make_token(char *e) {
 	    tokens[nr_token++].type = rules[i].token_type;
 	    break;
 	  case TK_NOTYPE:break;
-	  case TK_NUMD:
+	  case TK_NUMD:case TK_NUMH:
 	    tokens[nr_token++].type = rules[i].token_type;
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
-        }
+	            
+}
 
         break;
       }
@@ -193,8 +197,16 @@ static uint32_t eval(int p,int q){
   int val1,val2;
   if(p > q)
     assert(0);
-  else if(p == q)
-    return atoi(tokens[p].str);
+  else if(p == q){
+    switch(tokens[p].type){
+      case TK_NUMD:
+        return atoi(tokens[p].str);
+        break;
+       case TK_NUMH:
+         return strtol(tokens[p].str,NULL,16);
+         break;
+     }
+  }
   else if(check_parentheses(p,q) == true)
     return eval(p + 1, q - 1);
   else{
@@ -209,10 +221,7 @@ static uint32_t eval(int p,int q){
       default :assert(0);
     }
   }
-
-
-
-}
+}	
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {

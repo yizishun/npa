@@ -36,7 +36,9 @@ word_t isa_reg_str2val(const char *s, bool *success) {
     if(strcmp(regs[i],s) == 0)
       break;
   }
+  
   if(i <= REGNUMBER){
+    assert(0);
     *success = true;
     printf("%3s		%d\n",regs[i],cpu.gpr[i]);
   }

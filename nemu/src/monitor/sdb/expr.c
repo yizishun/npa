@@ -21,7 +21,7 @@
 #include <regex.h>
 #define MAXOP 10
 
-//static uint32_t eval(int ,int ) __attribute__((naked));
+static uint32_t eval(int ,int ) __attribute__((naked));
 enum {
   TK_NOTYPE = 256, TK_EQ, TK_NUMD , TK_NUMH , TK_REG,
 
@@ -208,7 +208,7 @@ static uint32_t eval(int p,int q){
 	else
 	  printf("isa_reg f");
 }
-    return strtol(tokens[p].str,NULL,0);
+    else return strtol(tokens[p].str,NULL,0);
   }    
   else if(check_parentheses(p,q) == true)
     return eval(p + 1, q - 1);

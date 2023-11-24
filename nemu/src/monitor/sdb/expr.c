@@ -197,6 +197,7 @@ static int find_main_op(int p,int q){
 } 
 
 static uint32_t deref(char *str){
+  assert(0);
   uint32_t m;
   int addr = strtol(str+1,NULL,0);
   uint8_t *raddr = guest_to_host(addr);  

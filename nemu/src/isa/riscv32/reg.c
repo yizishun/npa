@@ -36,7 +36,7 @@ word_t isa_reg_str2val(const char *s, bool *success) {
       break;
   }
   
-  if(i <= REGNUMBER){
+  if(i < REGNUMBER){
     *success = true;
     printf("%3s		%d\n",regs[i],cpu.gpr[i]);
   }

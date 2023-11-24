@@ -23,7 +23,7 @@ typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
   int val;
-  char *expr;
+  char expr[32];
 } WP;
 WP *new_wp();
 void free_wp(WP *wp);

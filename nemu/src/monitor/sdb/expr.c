@@ -77,7 +77,7 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[32];
+  char str[100];
 } Token;
 
 static Token tokens[32] __attribute__((used)) = {};
@@ -119,6 +119,7 @@ static bool make_token(char *e) {
 	    break;         
 	  case DEREF:
    	    tokens[nr_token++].type = DEREF;
+	    
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
             break;
       }

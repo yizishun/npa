@@ -76,7 +76,9 @@ int check_w(){
     bool success = true;
     int val = expr(p -> expr,&success);
     if(success == false) assert(0);
-    if(val != p -> val) return p -> NO;
+    if(val != p -> val){
+      p -> val= val; 
+      return p -> NO;}
   }
   return 0;
 }

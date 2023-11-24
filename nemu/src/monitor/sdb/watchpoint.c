@@ -70,6 +70,17 @@ void show_w(){
   }
 }
 
+int check_w(){
+  WP *p = head;
+  for(;p;p = p -> next){
+    bool success = false;
+    int val = expr(p -> expr,&success);
+    if(!success) assert(0);
+    if(val != p -> val) return p -> NO;
+  }
+  return 0;
+}
+
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {

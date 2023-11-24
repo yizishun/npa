@@ -19,11 +19,12 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include <memory/paddr.h>
 #define MAXOP 10
 
 //static uint32_t eval(int ,int ) __attribute__((naked));
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUMD , TK_NUMH , TK_REG,
+  TK_NOTYPE = 256, TK_EQ, TK_NUMD , TK_NUMH , TK_REG, DEREF ,
 
   /* TODO: Add more token types */
 
@@ -107,14 +108,21 @@ static bool make_token(char *e) {
 	
 	
         switch (rules[i].token_type) {
-	  case '+':case'-':case '*':case '/':case '(':case ')':
+	  case '+':case'-':case '/':case '(':case ')':
 	    tokens[nr_token++].type = rules[i].token_type;
 	    break;
 	  case TK_NOTYPE:break;
 	  case TK_NUMD:case TK_NUMH:case TK_REG:
 	    tokens[nr_token++].type = rules[i].token_type;
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
-	    break;          
+	    break;         
+	  case '*':
+	    if (i == 0 || tokens[i - 1].type =='+'||tokens[i - 1].type =='-'||tokens[i - 1].type =='*'||tokens[i - 1].type =='/'||tokens[i - 1].type =='(')
+   	      tokens[nr_token++].type = DEREF; 
+	    else
+	      tokens[nr_token++].type = rules[i].token_type;
+            break;
+
 }
 
         break;
@@ -193,6 +201,17 @@ static int find_main_op(int p,int q){
   return op;
 } 
 
+static uint32_t deref(char *str){
+  uint32_t m;
+  int addr = strtol(str+1,NULL,0);
+  uint8_t *raddr = guest_to_host(addr);  
+  m = *raddr++;
+  m += *raddr++*256;
+  m += *raddr++*256*256;
+  m += *raddr*256*256*256;
+  return m;
+}
+
 static uint32_t eval(int p,int q){
   int op;
   int val1,val2;
@@ -209,6 +228,8 @@ static uint32_t eval(int p,int q){
 	  printf("isa_reg f");
 	  assert(0);}
     }
+    else if(tokens[p].type == DEREF)
+      return deref(tokens[p].str);
     return strtol(tokens[p].str,NULL,0);
   }    
   else if(check_parentheses(p,q) == true)

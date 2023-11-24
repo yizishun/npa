@@ -115,14 +115,10 @@ static bool make_token(char *e) {
 	  case TK_NOTYPE:break;
 	  case TK_NUMD:case TK_NUMH:case TK_REG:
 	    tokens[nr_token++].type = rules[i].token_type;
-	    printf("%s\n",substr_start);
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
-	    printf("%d\n",tokens[nr_token-1].type);
-	    printf("%s\n",tokens[nr_token-1].str);
 	    break;         
 	  case DEREF:
    	    tokens[nr_token++].type = DEREF;
-	    printf("%s\n",substr_start);
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
             break;
       }

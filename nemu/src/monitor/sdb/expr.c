@@ -117,8 +117,9 @@ static bool make_token(char *e) {
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
 	    break;         
 	  case '*':
-	    if (i == 0 || tokens[i - 1].type =='+'||tokens[i - 1].type =='-'||tokens[i - 1].type =='*'||tokens[i - 1].type =='/'||tokens[i - 1].type =='(')
-   	      tokens[nr_token++].type = DEREF; 
+	    if (i == 0 || tokens[i - 1].type =='+'||tokens[i - 1].type =='-'||tokens[i - 1].type =='*'||tokens[i - 1].type =='/'||tokens[i - 1].type =='('){
+   	      tokens[nr_token++].type = DEREF;
+	      strncpy(tokens[nr_token-1].str,substr_start,substr_len); }
 	    else
 	      tokens[nr_token++].type = rules[i].token_type;
             break;

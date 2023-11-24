@@ -40,6 +40,7 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
+  {"\\(\\*0(x|X)([0-9]|[A-F]|[a-f]){1,}\\)",DEREF}, //* deref
   {"\\+", '+'},         // plus
   {"-",'-'},            // sub
   {"\\*",'*'},          // mul
@@ -108,7 +109,7 @@ static bool make_token(char *e) {
 	
 	
         switch (rules[i].token_type) {
-	  case '+':case'-':case '/':case '(':case ')':
+	  case '+':case'-':case '/':case '(':case ')':case '*': 
 	    tokens[nr_token++].type = rules[i].token_type;
 	    break;
 	  case TK_NOTYPE:break;
@@ -116,17 +117,10 @@ static bool make_token(char *e) {
 	    tokens[nr_token++].type = rules[i].token_type;
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
 	    break;         
-	  case '*':
-	    if (i == 0 || tokens[i - 1].type =='+'||tokens[i - 1].type =='-'||tokens[i - 1].type =='*'||tokens[i - 1].type =='/'||tokens[i - 1].type =='('){
-   	      tokens[nr_token++].type = DEREF;
-	      strncpy(tokens[nr_token-1].str,substr_start,substr_len); }
-	    else
-	      tokens[nr_token++].type = rules[i].token_type;
+	  case DEREF:
+   	    tokens[nr_token++].type = DEREF;
+	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
             break;
-
-}
-
-        break;
       }
     }
 
@@ -134,7 +128,7 @@ static bool make_token(char *e) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
-  }
+  }}
   return true;
 }
 bool check_parentheses2(int p,int q){

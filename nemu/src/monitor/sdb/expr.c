@@ -207,10 +207,10 @@ static uint32_t deref(char *str){
      
   int addr = strtol(str+2,NULL,0);
   uint8_t *raddr = guest_to_host(addr);  
-  m = *raddr;
-  //m += *raddr++*256;
-  //m += *raddr++*256*256;
-  //m += *raddr*256*256*256;
+  m = *raddr++;
+  m += *raddr++*256;
+  m += *raddr++*256*256;
+  m += *raddr*256*256*256;
   return m;
 }
 

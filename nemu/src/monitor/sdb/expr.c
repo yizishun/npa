@@ -228,8 +228,8 @@ static uint32_t eval(int p,int q){
 	  return n;
 	else{
 	  printf("isa_reg f");
-	  assert(0);}
-    }
+	  //assert(0);
+    }}
     else if(tokens[p].type == DEREF)
       return deref(tokens[p].str);
     return strtol(tokens[p].str,NULL,0);

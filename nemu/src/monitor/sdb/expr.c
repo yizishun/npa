@@ -119,7 +119,7 @@ static bool make_token(char *e) {
 	    break;         
 	  case DEREF:
    	    tokens[nr_token++].type = DEREF;
-	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
+	    strncpy(tokens[nr_token-1].str,substr_start,substr_len-1);
             break;
       }
     }

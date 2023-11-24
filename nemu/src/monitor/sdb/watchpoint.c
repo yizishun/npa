@@ -84,7 +84,7 @@ int check_w(){
   WP *p = head;
   for(;p;p = p -> next){
     bool success = true;
-    uint32_t val = expr(p -> expr,&success);
+    word_t val = expr(p -> expr,&success);
     if(success == false) assert(0);
     if(val != p -> val){
       p -> val= val; 

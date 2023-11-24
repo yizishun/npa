@@ -73,7 +73,7 @@ void show_w(){
 int check_w(){
   WP *p = head;
   for(;p;p = p -> next){
-    bool success = false;
+    bool success = true;
     int val = expr(p -> expr,&success);
     if(success == false) assert(0);
     if(val != p -> val) return p -> NO;

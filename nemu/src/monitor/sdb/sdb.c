@@ -67,8 +67,11 @@ static int cmd_info(char *args){
     case 'r':
 	    isa_reg_display();
 	    break;	
+    case 'w':
+            show_w();
+	    break;	    
     default:
-  	    printf("info r");}
+  	    printf("info r/w\n");}
   return 0;
 
 }

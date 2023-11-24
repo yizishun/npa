@@ -60,6 +60,15 @@ void free_wp(WP *wp){
   free_ = wp;
 }
 
+void show_w(){
+  WP *p = head;
+  for(;p;p = p -> next){
+    printf("NO:%d ",p -> NO);
+    printf("expr:%s= ",p -> expr);
+    printf("%d\n",p ->val);
+  }
+}
+
 void init_wp_pool() {
   int i;
   for (i = 0; i < NR_WP; i ++) {

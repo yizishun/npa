@@ -119,7 +119,7 @@ static bool make_token(char *e) {
 	    break;         
 	  case DEREF:
    	    tokens[nr_token++].type = DEREF;
-	    strncpy(tokens[nr_token-1].str,substr_start,substr_len-1);
+	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
             break;
       }
     }
@@ -198,6 +198,13 @@ static int find_main_op(int p,int q){
 
 static uint32_t deref(char *str){
   uint32_t m;
+  for(int i = 0;;i++){
+    if(str[i] == ')'){
+	str[i] = '\0';
+	break;
+    }
+  }
+     
   int addr = strtol(str+2,NULL,0);
   uint8_t *raddr = guest_to_host(addr);  
   m = *raddr++;

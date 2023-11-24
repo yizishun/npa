@@ -71,6 +71,7 @@ void del_w(int n){
     if(p -> NO == n){
       free_wp(p);
       printf("NO.%d has been free\n",n);
+      if(head == NULL) break;
     }
   } 
 }

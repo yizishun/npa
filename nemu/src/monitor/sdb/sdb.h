@@ -19,5 +19,13 @@
 #include <common.h>
 
 word_t expr(char *e, bool *success);
+typedef struct watchpoint {
+  int NO;
+  struct watchpoint *next;
+  int val;
+  char *expr;
+} WP;
+WP *new_wp();
+void free_wp(WP *wp);
 
 #endif

@@ -97,7 +97,19 @@ static int cmd_p(char *args){
 }
 
 static int cmd_w(char *args){
-
+  bool seccess = true;
+  int val;
+  WP *wp;
+  if(args == NULL) return 0;
+  val = expr(args,&seccess);
+  if(seccess == false){
+    printf("make_token false\n");
+    return 0;
+  }
+  wp = new_wp();
+  wp -> val = val;
+  wp -> expr = args;
+  printf("%d\n",val);
   return 0;
 }
 

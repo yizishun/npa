@@ -24,7 +24,7 @@
 
 //static uint32_t eval(int ,int ) __attribute__((naked));
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUMD , TK_NUMH , TK_REG=280, DEREF ,
+  TK_NOTYPE = 256, TK_EQ, TK_NUMD , TK_NUMH , TK_REG, DEREF ,
 
   /* TODO: Add more token types */
 
@@ -77,7 +77,7 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[100];
+  char str[64];
 } Token;
 
 static Token tokens[32] __attribute__((used)) = {};

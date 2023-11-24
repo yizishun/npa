@@ -43,6 +43,7 @@ WP *new_wp(){
       ;
     last -> next = free_2;
     free_2 -> NO = (last -> NO)+1;
+    free_2 -> next = NULL;
   }
   return free_2;
 }

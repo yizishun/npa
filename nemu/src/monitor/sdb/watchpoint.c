@@ -46,9 +46,17 @@ WP *new_wp(){
   return free_2;
 }
 void free_wp(WP *wp){
-  
-
-
+  WP *last1;
+  WP *last2;
+  int no = wp -> NO;
+  for(last2 = NULL,last1 = head;last1;last2 = last1,last1 = last1 -> next){
+    if(last1 -> NO == no)
+      last2 -> next = last1 -> next;
+    if(last1 -> NO > no)
+      (last1 -> NO)--;
+  }
+  wp -> next =free_;
+  free_ = wp;
 }
 
 void init_wp_pool() {

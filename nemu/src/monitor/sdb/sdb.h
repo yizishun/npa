@@ -29,3 +29,4 @@ WP *new_wp();
 void free_wp(WP *wp);
 void show_w();
 int check_w();
+void del_w();

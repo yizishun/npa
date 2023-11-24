@@ -115,6 +115,12 @@ static int cmd_w(char *args){
   return 0;
 }
 
+static int cmd_d(char *args){
+  int n = atoi(args);
+  del_w(n);
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -130,6 +136,7 @@ static struct {
   { "x", "x * *",cmd_x},
   { "p", "p expr",cmd_p},
   { "w", "w expr",cmd_w},
+  { "d", "d NO.", cmd_d}
   /* TODO: Add more commands */
 
 };

@@ -61,6 +61,16 @@ void free_wp(WP *wp){
   free_ = wp;
 }
 
+void del_w(int n){
+  WP *p = head;
+  for(;p;p = p -> next){
+    if(p -> NO == n){
+      free_wp(p);
+      printf("NO.%d has been free",n);
+    }
+  } 
+}
+
 void show_w(){
   WP *p = head;
   for(;p;p = p -> next){

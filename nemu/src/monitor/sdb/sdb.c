@@ -85,17 +85,20 @@ static int cmd_x(char *args){
 }
 static int cmd_p(char *args){
   bool seccess = true;
-  bool *seccessptr = &seccess;
   int val;
   if(args == NULL) return 0;
-  val = expr(args,seccessptr);
+  val = expr(args,&seccess);
   if(seccess == false){
     printf("make_token false\n");
     return 0;
   }
   printf("%d\n",val);
   return 0;
-    
+}
+
+static int cmd_w(char *args){
+
+  return 0;
 }
 
 static int cmd_help(char *args);
@@ -112,7 +115,7 @@ static struct {
   { "info", "info r or info w",cmd_info},
   { "x", "x * *",cmd_x},
   { "p", "p expr",cmd_p},
-
+  { "w", "w expr",cmd_w},
   /* TODO: Add more commands */
 
 };

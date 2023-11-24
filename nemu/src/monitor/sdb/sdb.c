@@ -112,7 +112,6 @@ static int cmd_w(char *args){
   wp = new_wp();
   wp -> val = val;
   strcpy(wp -> expr,args);
-  printf("%d\n",val);
   return 0;
 }
 

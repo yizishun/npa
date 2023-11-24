@@ -52,8 +52,12 @@ void free_wp(WP *wp){
   WP *last2;
   int no = wp -> NO;
   for(last2 = NULL,last1 = head;last1;last2 = last1,last1 = last1 -> next){
-    if(last1 -> NO == no)
-      last2 -> next = last1 -> next;
+    if(last1 -> NO == no){
+      if(last2 != NULL)
+        last2 -> next = last1 -> next;
+      else 
+	head = last1 -> next;
+    }
     if(last1 -> NO > no)
       (last1 -> NO)--;
   }
@@ -67,6 +71,7 @@ void del_w(int n){
     if(p -> NO == n){
       free_wp(p);
       printf("NO.%d has been free\n",n);
+      if(head == NULL) break;
     }
   } 
 }

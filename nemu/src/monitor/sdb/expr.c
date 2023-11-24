@@ -255,6 +255,10 @@ static uint32_t eval(int p,int q){
 }	
 
 word_t expr(char *e, bool *success) {
+  for (int i = 0; i < 5; ++i){
+    memset(tokens[i].str,0,sizeof(tokens[i].str));
+  }
+  
   if (!make_token(e)) {
     *success = false;
     return 0;

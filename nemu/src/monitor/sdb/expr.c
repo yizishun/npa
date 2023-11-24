@@ -204,7 +204,6 @@ static uint32_t deref(char *str){
   m += *raddr++*256;
   m += *raddr++*256*256;
   m += *raddr*256*256*256;
-  assert(0);
   return m;
 }
 

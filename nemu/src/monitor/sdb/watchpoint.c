@@ -75,7 +75,7 @@ int check_w(){
   for(;p;p = p -> next){
     bool success = false;
     int val = expr(p -> expr,&success);
-    if(!success) assert(0);
+    if(success == false) assert(0);
     if(val != p -> val) return p -> NO;
   }
   return 0;

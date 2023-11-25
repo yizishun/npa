@@ -70,7 +70,7 @@ void del_w(int n){
   for(;p;p = p -> next){
     if(p -> NO == n){
       free_wp(p);
-      printf("NO.%d has been free\n",n);
+      printf("NO.%d has been free\n",n);break;
       if(head == NULL) break;
     }
   } 

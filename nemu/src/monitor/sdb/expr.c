@@ -219,6 +219,8 @@ static uint32_t deref(char *str){
 }
 
 static uint32_t eval(int p,int q){
+  printf("p=%d q=%d",p,q);
+  assert(0);
   int op;
   int val1,val2;
   if(p > q)
@@ -266,7 +268,6 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  if(nr_token==3) assert(0);
   /* TODO: Insert codes to evaluate the expression. */
   return eval(0,nr_token-1);
 }

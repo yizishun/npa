@@ -160,8 +160,8 @@ bool check_parentheses(int p,int q){
 }
 
 static int find_main_op(int p,int q){
-  printf("p=%d q=%d",p,q);
-  fflush(stdout);
+  //printf("p=%d q=%d",p,q);
+  //fflush(stdout);
   int plus[MAXOP] = {-1}, plusptr = 0;
   int sub[MAXOP] = {-1},subptr = 0;
   int mul[MAXOP] = {-1}, mulptr = 0;

@@ -129,6 +129,7 @@ static bool make_token(char *e) {
       return false;
     }
   }}
+  printf("nr = %d",nr_token-1);
   return true;
 }
 bool check_parentheses2(int p,int q){
@@ -219,7 +220,6 @@ static uint32_t deref(char *str){
 }
 
 static uint32_t eval(int p,int q){
-  printf("p%d q%d",p,q);
   int op;
   int val1,val2;
   if(p > q)

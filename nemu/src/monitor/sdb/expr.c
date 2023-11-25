@@ -166,7 +166,7 @@ static int find_main_op(int p,int q){
   int sub[MAXOP] = {-1},subptr = 0;
   int mul[MAXOP] = {-1}, mulptr = 0;
   int div[MAXOP] ={-1}, divptr = 0;
-  //int equl[MAXOP] ={-1},equlptr =0;
+  int equl[MAXOP] ={-1},equlptr =0;
   int lp = 0;
   int op = 0;
   for(;p < q;p++){
@@ -175,7 +175,7 @@ static int find_main_op(int p,int q){
     if(lp != 0) continue;
     switch(tokens[p].type){
       case TK_EQ:
-	return TK_EQ;
+	equl[equlptr++] = p;
 	break;
       case '+' : 
         plus[plusptr++] = p;
@@ -191,6 +191,8 @@ static int find_main_op(int p,int q){
 	break;
       default : continue;
 }}
+    if(equl[0]!=-1) op = equl[--equlptr];
+    else{
     if(plus[0] != -1) op = plus[--plusptr];
     if(sub[0] != -1)
       if(sub[--subptr] > op) op = sub[subptr];
@@ -198,10 +200,7 @@ static int find_main_op(int p,int q){
       if(mul[0] != -1) op = mul[--mulptr];
       if(div[0] != -1)
         if(div[--divptr] > op) op = div[divptr];
-    }
-  printf("op = %d",op);
-  fflush(stdout);
-  assert(0);
+    }}
   return op;
 } 
 

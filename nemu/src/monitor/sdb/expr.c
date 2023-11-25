@@ -173,7 +173,6 @@ static int find_main_op(int p,int q){
     if(lp != 0) continue;
     switch(tokens[p].type){
       case TK_EQ:
-	assert(0);
 	return TK_EQ;
 	break;
       case '+' : 
@@ -245,6 +244,7 @@ static uint32_t eval(int p,int q){
     op = find_main_op(p,q);
     val1 = eval(p , op -1);
     val2 = eval(op + 1 ,q);
+    assert(0);
     switch(tokens[op].type){
       case TK_EQ:return (val1 == val2);
       case '+':return val1 + val2;

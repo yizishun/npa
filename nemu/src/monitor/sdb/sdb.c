@@ -95,7 +95,7 @@ static int cmd_p(char *args){
     printf("make_token false\n");
     return 0;
   }
-  printf("%u\n",val);
+  printf("%x\n",val);
   return 0;
 }
 

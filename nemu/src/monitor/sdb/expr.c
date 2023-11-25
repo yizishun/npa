@@ -251,7 +251,6 @@ static uint32_t eval(int p,int q){
     //printf("p=%d q=%d op=%d",p,q,op);
     val1 = eval(p , op -1);
     val2 = eval(op + 1 ,q);
-    assert(0);
     switch(tokens[op].type){
       case TK_EQ:return (val1 == val2);
       case '+':return val1 + val2;

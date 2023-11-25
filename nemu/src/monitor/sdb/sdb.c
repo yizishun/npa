@@ -67,8 +67,11 @@ static int cmd_info(char *args){
     case 'r':
 	    isa_reg_display();
 	    break;	
+    case 'w':
+            show_w();
+	    break;	    
     default:
-  	    printf("info r");}
+  	    printf("info r/w\n");}
   return 0;
 
 }
@@ -85,17 +88,39 @@ static int cmd_x(char *args){
 }
 static int cmd_p(char *args){
   bool seccess = true;
-  bool *seccessptr = &seccess;
   int val;
   if(args == NULL) return 0;
-  val = expr(args,seccessptr);
+  val = expr(args,&seccess);
   if(seccess == false){
     printf("make_token false\n");
     return 0;
   }
-  printf("%d\n",val);
+  if(val >= 0x80000000)
+    printf("%#x\n",val);
+  else printf("%u\n",val);
   return 0;
-    
+}
+
+static int cmd_w(char *args){
+  bool seccess = true;
+  int val;
+  WP *wp;
+  if(args == NULL) return 0;
+  val = expr(args,&seccess);
+  if(seccess == false){
+    printf("make_token false\n");
+    return 0;
+  }
+  wp = new_wp();
+  wp -> val = val;
+  strcpy(wp -> expr,args);
+  return 0;
+}
+
+static int cmd_d(char *args){
+  int n = atoi(args);
+  del_w(n);
+  return 0;
 }
 
 static int cmd_help(char *args);
@@ -112,7 +137,8 @@ static struct {
   { "info", "info r or info w",cmd_info},
   { "x", "x * *",cmd_x},
   { "p", "p expr",cmd_p},
-
+  { "w", "w expr",cmd_w},
+  { "d", "d NO.", cmd_d}
   /* TODO: Add more commands */
 
 };

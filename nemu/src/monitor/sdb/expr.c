@@ -19,11 +19,12 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include <memory/paddr.h>
 #define MAXOP 10
 
 //static uint32_t eval(int ,int ) __attribute__((naked));
 enum {
-  TK_NOTYPE = 256, TK_EQ, TK_NUMD , TK_NUMH , TK_REG,
+  TK_NOTYPE = 256, TK_EQ, TK_NUMD , TK_NUMH , TK_REG, DEREF ,
 
   /* TODO: Add more token types */
 
@@ -39,6 +40,7 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
+  {"\\(\\*0(x|X)([0-9]|[A-F]|[a-f]){1,}\\)",DEREF}, //* deref
   {"\\+", '+'},         // plus
   {"-",'-'},            // sub
   {"\\*",'*'},          // mul
@@ -75,7 +77,7 @@ void init_regex() {
 
 typedef struct token {
   int type;
-  char str[32];
+  char str[64];
 } Token;
 
 static Token tokens[32] __attribute__((used)) = {};
@@ -107,17 +109,18 @@ static bool make_token(char *e) {
 	
 	
         switch (rules[i].token_type) {
-	  case '+':case'-':case '*':case '/':case '(':case ')':
+	  case '+':case'-':case '/':case '(':case ')':case '*': case TK_EQ:
 	    tokens[nr_token++].type = rules[i].token_type;
 	    break;
 	  case TK_NOTYPE:break;
 	  case TK_NUMD:case TK_NUMH:case TK_REG:
 	    tokens[nr_token++].type = rules[i].token_type;
 	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
-	    break;          
-}
-
-        break;
+	    break;         
+	  case DEREF:
+   	    tokens[nr_token++].type = DEREF;
+	    strncpy(tokens[nr_token-1].str,substr_start,substr_len);
+            break;
       }
     }
 
@@ -125,7 +128,7 @@ static bool make_token(char *e) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
-  }
+  }}
   return true;
 }
 bool check_parentheses2(int p,int q){
@@ -161,6 +164,7 @@ static int find_main_op(int p,int q){
   int sub[MAXOP] = {-1},subptr = 0;
   int mul[MAXOP] = {-1}, mulptr = 0;
   int div[MAXOP] ={-1}, divptr = 0;
+  int equl[MAXOP] ={-1},equlptr =0;
   int lp = 0;
   int op = 0;
   for(;p < q;p++){
@@ -168,6 +172,9 @@ static int find_main_op(int p,int q){
     if(tokens[p].type == ')') lp--;
     if(lp != 0) continue;
     switch(tokens[p].type){
+      case TK_EQ:
+	equl[equlptr++] = p;
+	break;
       case '+' : 
         plus[plusptr++] = p;
 	break;
@@ -182,6 +189,8 @@ static int find_main_op(int p,int q){
 	break;
       default : continue;
 }}
+    if(equl[0]!=-1) op = equl[--equlptr];
+    else{
     if(plus[0] != -1) op = plus[--plusptr];
     if(sub[0] != -1)
       if(sub[--subptr] > op) op = sub[subptr];
@@ -189,9 +198,27 @@ static int find_main_op(int p,int q){
       if(mul[0] != -1) op = mul[--mulptr];
       if(div[0] != -1)
         if(div[--divptr] > op) op = div[divptr];
-    }
+    }}
   return op;
 } 
+
+static uint32_t deref(char *str){
+  uint32_t m;
+  for(int i = 0;;i++){
+    if(str[i] == ')'){
+	str[i] = '\0';
+	break;
+    }
+  }
+     
+  int addr = strtol(str+2,NULL,0);
+  uint8_t *raddr = guest_to_host(addr);  
+  m = *raddr++;
+  m += *raddr++*256;
+  m += *raddr++*256*256;
+  m += *raddr*256*256*256;
+  return m;
+}
 
 static uint32_t eval(int p,int q){
   int op;
@@ -207,8 +234,9 @@ static uint32_t eval(int p,int q){
 	  return n;
 	else{
 	  printf("isa_reg f");
-	  assert(0);}
-    }
+    }}
+    else if(tokens[p].type == DEREF)
+      return deref(tokens[p].str);
     return strtol(tokens[p].str,NULL,0);
   }    
   else if(check_parentheses(p,q) == true)
@@ -218,6 +246,7 @@ static uint32_t eval(int p,int q){
     val1 = eval(p , op -1);
     val2 = eval(op + 1 ,q);
     switch(tokens[op].type){
+      case TK_EQ:return (val1 == val2);
       case '+':return val1 + val2;
       case '-':return val1 - val2;
       case '*':return val1 * val2;
@@ -228,11 +257,14 @@ static uint32_t eval(int p,int q){
 }	
 
 word_t expr(char *e, bool *success) {
+  for (int i = 0; i < 5; ++i){
+    memset(tokens[i].str,0,sizeof(tokens[i].str));
+  }
+  
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-
   /* TODO: Insert codes to evaluate the expression. */
   return eval(0,nr_token-1);
 }

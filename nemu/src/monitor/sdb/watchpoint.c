@@ -82,7 +82,7 @@ void show_w(){
     printf("NO:%d ",p -> NO);
     printf("expr:%s= ",p -> expr);
     if(p -> val >= 0x80000000)
-      printf("%#x\n",p -> val);
+      printf("%#x ",p -> val);
     else     
       printf("%u ",p ->val);
     if(p -> next == NULL) printf("\n");

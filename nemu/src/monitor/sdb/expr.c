@@ -220,6 +220,7 @@ static uint32_t deref(char *str){
 
 static uint32_t eval(int p,int q){
   printf("p=%d q=%d",p,q);
+  fflush(stdout);
   assert(0);
   int op;
   int val1,val2;

@@ -160,8 +160,6 @@ bool check_parentheses(int p,int q){
 }
 
 static int find_main_op(int p,int q){
-  //printf("p=%d q=%d",p,q);
-  //fflush(stdout);
   int plus[MAXOP] = {-1}, plusptr = 0;
   int sub[MAXOP] = {-1},subptr = 0;
   int mul[MAXOP] = {-1}, mulptr = 0;
@@ -223,8 +221,6 @@ static uint32_t deref(char *str){
 }
 
 static uint32_t eval(int p,int q){
-  //printf("p=%d q=%d",p,q);
-  //fflush(stdout);
   int op;
   int val1,val2;
   if(p > q)
@@ -238,7 +234,6 @@ static uint32_t eval(int p,int q){
 	  return n;
 	else{
 	  printf("isa_reg f");
-	  //assert(0);
     }}
     else if(tokens[p].type == DEREF)
       return deref(tokens[p].str);
@@ -248,7 +243,6 @@ static uint32_t eval(int p,int q){
     return eval(p + 1, q - 1);
   else{
     op = find_main_op(p,q);
-    //printf("p=%d q=%d op=%d",p,q,op);
     val1 = eval(p , op -1);
     val2 = eval(op + 1 ,q);
     switch(tokens[op].type){

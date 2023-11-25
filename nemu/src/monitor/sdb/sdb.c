@@ -95,7 +95,9 @@ static int cmd_p(char *args){
     printf("make_token false\n");
     return 0;
   }
-  printf("%#x\n",val);
+  if(val >= 0x80000000)
+    printf("%#x\n",val);
+  else printf("%u",val);
   return 0;
 }
 

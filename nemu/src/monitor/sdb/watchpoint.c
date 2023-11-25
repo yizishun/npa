@@ -82,7 +82,7 @@ void show_w(){
     printf("NO:%d ",p -> NO);
     printf("expr:%s= ",p -> expr);
     printf("%d",p ->val);
-    if(p -> next == NULL);
+    if(p -> next == NULL) printf("\n");
     else printf("next = %d\n",p -> next ->NO);
   }
 }

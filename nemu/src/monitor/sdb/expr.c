@@ -129,7 +129,6 @@ static bool make_token(char *e) {
       return false;
     }
   }}
-  printf("nr = %d",nr_token-1);
   return true;
 }
 bool check_parentheses2(int p,int q){
@@ -267,6 +266,7 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
+  if(nr_token>10) assert(0);
   /* TODO: Insert codes to evaluate the expression. */
   return eval(0,nr_token-1);
 }

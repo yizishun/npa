@@ -97,7 +97,7 @@ static int cmd_p(char *args){
   }
   if(val >= 0x80000000)
     printf("%#x\n",val);
-  else printf("%u",val);
+  else printf("%u\n",val);
   return 0;
 }
 

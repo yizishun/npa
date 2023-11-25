@@ -173,6 +173,7 @@ static int find_main_op(int p,int q){
     if(lp != 0) continue;
     switch(tokens[p].type){
       case TK_EQ:
+	assert(0);
 	return TK_EQ;
 	break;
       case '+' : 

@@ -242,6 +242,7 @@ static uint32_t eval(int p,int q){
     return eval(p + 1, q - 1);
   else{
     op = find_main_op(p,q);
+    printf("p=%d q=%d op=%d",p,q,op);
     val1 = eval(p , op -1);
     val2 = eval(op + 1 ,q);
     assert(0);

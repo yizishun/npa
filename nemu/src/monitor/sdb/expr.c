@@ -219,7 +219,7 @@ static uint32_t deref(char *str){
 }
 
 static uint32_t eval(int p,int q){
-  printf("%d %d",p,q);
+  printf("p%d q%d",p,q);
   int op;
   int val1,val2;
   if(p > q)

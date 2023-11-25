@@ -40,6 +40,12 @@ word_t isa_reg_str2val(const char *s, bool *success) {
     *success = true;
     //printf("%3s		%d\n",regs[i],cpu.gpr[i]);
   }
-  else *success = false;
+  else {
+    if(strcmp("pc",s+1) == 0){
+	*success = true;
+	return cpu.pc;
+}
+    *success = false;
+}
   return cpu.gpr[i];
 }

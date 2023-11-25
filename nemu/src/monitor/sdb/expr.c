@@ -109,7 +109,7 @@ static bool make_token(char *e) {
 	
 	
         switch (rules[i].token_type) {
-	  case '+':case'-':case '/':case '(':case ')':case '*': 
+	  case '+':case'-':case '/':case '(':case ')':case '*': case TK_EQ:
 	    tokens[nr_token++].type = rules[i].token_type;
 	    break;
 	  case TK_NOTYPE:break;
@@ -164,6 +164,7 @@ static int find_main_op(int p,int q){
   int sub[MAXOP] = {-1},subptr = 0;
   int mul[MAXOP] = {-1}, mulptr = 0;
   int div[MAXOP] ={-1}, divptr = 0;
+  //int equl[MAXOP] ={-1},equlptr =0;
   int lp = 0;
   int op = 0;
   for(;p < q;p++){
@@ -171,6 +172,9 @@ static int find_main_op(int p,int q){
     if(tokens[p].type == ')') lp--;
     if(lp != 0) continue;
     switch(tokens[p].type){
+      case TK_EQ:
+	return TK_EQ;
+	break;
       case '+' : 
         plus[plusptr++] = p;
 	break;
@@ -241,6 +245,7 @@ static uint32_t eval(int p,int q){
     val1 = eval(p , op -1);
     val2 = eval(op + 1 ,q);
     switch(tokens[op].type){
+      case TK_EQ:return (val1 == val2);
       case '+':return val1 + val2;
       case '-':return val1 - val2;
       case '*':return val1 * val2;

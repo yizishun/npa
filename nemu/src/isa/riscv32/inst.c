@@ -17,6 +17,7 @@
 #include <cpu/cpu.h>
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
+#include <stdio.h>
 
 #define R(i) gpr(i)
 #define Mr vaddr_read
@@ -53,7 +54,10 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
 }
 
 static void check_al(int dnpc){
-  if((3ull | dnpc) != 0) assert(0); 
+  if((3ull | dnpc) != 0){
+    printf("instruction-address-misaligned exception:%x",dnpc);
+    assert(0);
+  } 
 }
 
 static int decode_exec(Decode *s) {

@@ -55,8 +55,8 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
 
 static void check_al(int dnpc){
   if((3ull | dnpc) != 0){
-    printf("instruction-address-misaligned exception:%x",dnpc);
     fflush(stdout);
+    printf("instruction-address-misaligned exception:%x",dnpc);
     assert(0);
   } 
 }

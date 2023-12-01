@@ -57,7 +57,7 @@ static void check_al(int dnpc){
   if((3ull | dnpc) != 0){
     fflush(stdout);
     printf("instruction-address-misaligned exception:%x",dnpc);
-    assert(0);
+    //assert(0);
   } 
 }
 

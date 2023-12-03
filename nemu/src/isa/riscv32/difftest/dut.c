@@ -33,13 +33,13 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
       flag = false;
   }
   if(flag == false){
+    printf("ref-pc=%x\n",ref_r -> pc);
     for(i = 0;i < REGNUM;i++){ 
       if(ref_r -> gpr[i] >= 0x80000000)
-        printf("%3s       %#x\n",regs2[i],ref_r->gpr[i]);
+        printf("ref-%3s       %#x\n",regs2[i],ref_r->gpr[i]);
       else
-        printf("%3s      %d\n",regs2[i],ref_r->gpr[i]);
+        printf("ref-%3s      %d\n",regs2[i],ref_r->gpr[i]);
     }
-    printf("%x\n",ref_r -> pc);
   }
   return flag;
 }

@@ -25,11 +25,12 @@ const char *regs[] = {
 
 void isa_reg_display() {
   int i;
+  printf("dut-pc=%x\n",cpu.pc);
   for(i = 0;i < REGNUMBER;i++){
     if(cpu.gpr[i] >= 0x80000000)
-      printf("%3s	%#x\n",regs[i],cpu.gpr[i]);
+      printf("dut-%3s	%#x\n",regs[i],cpu.gpr[i]);
     else
-      printf("%3s      %d\n",regs[i],cpu.gpr[i]); }
+      printf("dut-%3s      %d\n",regs[i],cpu.gpr[i]); }
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {

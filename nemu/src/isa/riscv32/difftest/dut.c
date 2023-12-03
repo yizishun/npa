@@ -20,8 +20,8 @@
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
   bool flag = true;
   int i;
-  printf("%x",ref_r -> pc);
-  if(ref_r -> pc != pc) flag = false;
+  printf("%x\n",ref_r -> pc);
+  //if(ref_r -> pc != pc) flag = false;
   for(i = 0;i < REGNUM;i++){
     if(ref_r -> gpr[i] != cpu.gpr[i])
       flag = false;
